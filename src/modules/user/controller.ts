@@ -5,8 +5,22 @@ import { generateAccessToken, generateRefreshToken } from "../../services/token.
 export class UsersController {
   public service = new UsersService();
 
-  public getAllUsers(req: Request, res: Response) {
-    return res.json(this.service.getUsers());
+  public async getAllUsers(req: Request, res: Response) {
+    try {
+      const users = await this.service.getUsers();
+
+      res.status(200).json({
+        success: true,
+        message: "Get Users",
+        data: { users },
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message: (error as Error).message,
+        status: 400,
+      });
+    }
   }
 
   public async createUser(req: Request, res: Response) {
@@ -23,9 +37,12 @@ export class UsersController {
       });
 
       res.status(201).json({
+        success: true,
         message: "Registered Successfully",
-        user,
-        accessToken,
+        data: {
+          user,
+          accessToken,
+        },
       });
     } catch (error) {
       return res.status(400).json({

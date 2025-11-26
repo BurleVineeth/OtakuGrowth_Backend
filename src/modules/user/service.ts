@@ -10,15 +10,14 @@ export class UsersService {
 
   public async createUser(data: User) {
     try {
+      const validation = validatePayload<User>(createUserSchema, data);
+      if (!validation.success) {
+        throw new Error(validation.errors.join(", "));
+      }
+
       const exists = await UserModel.findOne({ email: data.email });
       if (exists) {
         throw new Error("Email already exists");
-      }
-
-      const validation = validatePayload<User>(createUserSchema, data);
-
-      if (!validation.success) {
-        throw new Error(validation.errors.join(", "));
       }
 
       const hashedPassword = await bcrypt.hash(data.password, 10);
