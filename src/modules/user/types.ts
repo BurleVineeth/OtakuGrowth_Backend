@@ -3,7 +3,7 @@ import { z } from "zod";
 export interface User {
   name: string;
   email: string;
-  password: string
+  password: string;
 }
 
 export const createUserSchema = z.object({

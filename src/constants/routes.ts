@@ -1,5 +1,5 @@
 export const Routes = {
-  LOGIN: 'login',
-  REFRESH: 'refresh',
-  USERS: 'users',
-}
+  LOGIN: "login",
+  REFRESH: "refresh",
+  USERS: "users",
+};

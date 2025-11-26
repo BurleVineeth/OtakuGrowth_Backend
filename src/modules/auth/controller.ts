@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
-import { AuthService } from './service';
-import { generateAccessToken } from '../../services/token.service';
-import { config } from '../../core/config/env';
-import jwt from 'jsonwebtoken';
-import { JWTDecode } from './types';
+import { Request, Response } from "express";
+import { AuthService } from "./service";
+import { generateAccessToken } from "../../services/token.service";
+import { config } from "../../core/config/env";
+import jwt from "jsonwebtoken";
+import { JWTDecode } from "./types";
 
 export class AuthController {
   public service = new AuthService();
@@ -25,7 +25,7 @@ export class AuthController {
         data: {
           user,
           accessToken,
-        }
+        },
       });
     } catch (error) {
       return res.status(400).json({
@@ -48,15 +48,15 @@ export class AuthController {
 
       res.status(200).json({
         success: true,
-        message: 'Refresh token created successfully',
+        message: "Refresh token created successfully",
         data: {
-          accessToken: newAccessToken
-        }
+          accessToken: newAccessToken,
+        },
       });
     } catch (error) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid refresh token',
+        message: "Invalid refresh token",
         status: 401,
       });
     }
@@ -69,7 +69,7 @@ export class AuthController {
     } catch (error) {
       return res.status(400).json({
         success: false,
-        message: 'Failed to logout',
+        message: "Failed to logout",
         status: 400,
       });
     }

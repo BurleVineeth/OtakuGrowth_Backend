@@ -1,7 +1,7 @@
 import { validatePayload } from "../../services/utils.service";
 import { UserModel } from "./model";
 import { createUserSchema, User } from "./types";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 
 export class UsersService {
   public getUsers() {

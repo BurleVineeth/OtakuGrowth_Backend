@@ -2,7 +2,7 @@ import { generateAccessToken, generateRefreshToken } from "../../services/token.
 import { validatePayload } from "../../services/utils.service";
 import { UserModel } from "../user/model";
 import { LoginCredentials, LoginSchema } from "./types";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 
 export class AuthService {
   public async login(userCredentials: LoginCredentials) {
@@ -14,7 +14,7 @@ export class AuthService {
 
       const existUser = await UserModel.findOne({ email: userCredentials.email });
       if (!existUser) {
-        throw new Error('Invalid email');
+        throw new Error("Invalid email");
       }
 
       const isValid = await bcrypt.compare(userCredentials.password, existUser.password);

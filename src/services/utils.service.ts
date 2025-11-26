@@ -4,12 +4,12 @@ import { ZodError } from "zod";
 
 dotenv.config();
 
-type PayloadValidation<T> = { success: false, errors: string[] } | { success: true, data: T }
+type PayloadValidation<T> = { success: false; errors: string[] } | { success: true; data: T };
 
 export const getAllowedOriginUrls = () => {
-  const allowedOrigins = config.ALLOWED_ORIGIN_URLS
-  return (allowedOrigins ?? '')?.split(',');
-}
+  const allowedOrigins = config.ALLOWED_ORIGIN_URLS;
+  return (allowedOrigins ?? "")?.split(",");
+};
 
 export const validatePayload = <T>(schema: any, payload: T): PayloadValidation<T> => {
   const result = schema.safeParse(payload);

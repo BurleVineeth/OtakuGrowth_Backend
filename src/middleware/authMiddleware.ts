@@ -12,7 +12,7 @@ const publicRoutes = [
 export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   try {
     const isPublic = publicRoutes.some(
-      route => route.method === req.method && route.path === req.path
+      (route) => route.method === req.method && route.path === req.path
     );
 
     if (isPublic) {
@@ -27,7 +27,7 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
 
     const token = authHeader.split(" ")[1];
     if (!token) {
-      throw new Error('Access Token is missing');
+      throw new Error("Access Token is missing");
     }
 
     jwt.verify(token, config.ACCESS_TOKEN_SECRET);

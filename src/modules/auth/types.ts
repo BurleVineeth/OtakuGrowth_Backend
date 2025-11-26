@@ -1,13 +1,13 @@
-import z, { email } from "zod"
+import z, { email } from "zod";
 
 export type LoginCredentials = {
-  email: string,
-  password: string,
-}
+  email: string;
+  password: string;
+};
 
 export const LoginSchema = z.object({
   email: z.email(),
-  password: z.string()
-})
+  password: z.string(),
+});
 
-export type JWTDecode = { email: string, iat: number, exp: number }
+export type JWTDecode = { email: string; iat: number; exp: number };
