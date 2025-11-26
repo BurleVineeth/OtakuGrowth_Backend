@@ -3,7 +3,7 @@ import { AuthService } from "./service";
 import { generateAccessToken } from "../../services/token.service";
 import { config } from "../../core/config/env";
 import jwt from "jsonwebtoken";
-import { JWTDecode } from "./types";
+import { JWTDecodeType } from "./types";
 
 export class AuthController {
   public service = new AuthService();
@@ -43,7 +43,7 @@ export class AuthController {
         return res.status(401).json({ message: "No refresh token" });
       }
 
-      const decoded = jwt.verify(token, config.REFRESH_TOKEN_SECRET) as JWTDecode;
+      const decoded = jwt.verify(token, config.REFRESH_TOKEN_SECRET) as JWTDecodeType;
       const newAccessToken = generateAccessToken({ email: decoded.email });
 
       res.status(200).json({

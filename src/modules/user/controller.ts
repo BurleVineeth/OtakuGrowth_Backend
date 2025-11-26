@@ -52,4 +52,25 @@ export class UsersController {
       });
     }
   }
+
+  public async getUser(req: Request, res: Response) {
+    try {
+      const { accessToken } = req.query;
+      const user = await this.service.getUser(accessToken as string);
+
+      res.status(200).json({
+        success: true,
+        message: "User fetched successfully",
+        data: {
+          user,
+        },
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message: (error as Error).message,
+        status: 400,
+      });
+    }
+  }
 }

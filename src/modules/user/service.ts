@@ -1,7 +1,10 @@
+import jwt from "jsonwebtoken";
 import { validatePayload } from "../../services/utils.service";
 import { UserModel } from "./model";
 import { createUserSchema, User } from "./types";
 import bcrypt from "bcrypt";
+import { config } from "../../core/config/env";
+import { JWTDecodeType } from "../auth/types";
 
 export class UsersService {
   public getUsers() {
@@ -28,6 +31,17 @@ export class UsersService {
       const { password, ...userWithoutPassword } = userObj;
 
       return userWithoutPassword;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async getUser(accessToken: string) {
+    try {
+      const decode = jwt.verify(accessToken, config.ACCESS_TOKEN_SECRET) as JWTDecodeType;
+      const user = await UserModel.findOne({ email: decode.email });
+
+      return user;
     } catch (error) {
       throw error;
     }

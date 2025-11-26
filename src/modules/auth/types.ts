@@ -10,4 +10,4 @@ export const LoginSchema = z.object({
   password: z.string(),
 });
 
-export type JWTDecode = { email: string; iat: number; exp: number };
+export type JWTDecodeType = { email: string; iat: number; exp: number };
