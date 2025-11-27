@@ -39,7 +39,10 @@ export class UsersService {
   public async getUser(accessToken: string) {
     try {
       const decode = jwt.verify(accessToken, config.ACCESS_TOKEN_SECRET) as JWTDecodeType;
-      const user = await UserModel.findOne({ email: decode.email });
+      const user = await UserModel.findOne({ email: decode.email }).select({
+        name: 1,
+        email: 1,
+      });
 
       return user;
     } catch (error) {
