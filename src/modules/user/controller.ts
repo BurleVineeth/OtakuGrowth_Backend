@@ -56,7 +56,11 @@ export class UsersController {
 
   public async getUser(req: Request, res: Response) {
     try {
-      const { accessToken } = req.query;
+      const accessToken = (req.headers.authorization ?? "").split(" ")[1];
+      if (!accessToken) {
+        throw new Error("Access Token is required");
+      }
+
       const user = await this.service.getUser(accessToken as string);
 
       res.status(200).json({
