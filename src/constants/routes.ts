@@ -3,4 +3,5 @@ export const Routes = {
   REFRESH: "refresh",
   USER: "user",
   USERS: "users",
+  LOGOUT: "logout",
 };

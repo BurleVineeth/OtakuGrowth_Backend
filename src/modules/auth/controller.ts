@@ -4,6 +4,7 @@ import { generateAccessToken } from "../../services/token.service";
 import { config } from "../../core/config/env";
 import jwt from "jsonwebtoken";
 import { JWTDecodeType } from "./types";
+import { CookieKeys } from "../../constants";
 
 export class AuthController {
   public service = new AuthService();
@@ -12,7 +13,7 @@ export class AuthController {
     try {
       const { user, refreshToken, accessToken } = await this.service.login(req.body);
 
-      res.cookie("refresh_token", refreshToken, {
+      res.cookie(CookieKeys.REFRESH_TOKEN, refreshToken, {
         httpOnly: true,
         secure: true,
         sameSite: "strict",
@@ -38,7 +39,7 @@ export class AuthController {
 
   public async refresh(req: Request, res: Response) {
     try {
-      const token = req.cookies.refresh_token;
+      const token = req.cookies[CookieKeys.REFRESH_TOKEN];
       if (!token) {
         return res.status(401).json({ message: "No refresh token" });
       }
@@ -64,8 +65,8 @@ export class AuthController {
 
   public async logout(req: Request, res: Response) {
     try {
-      res.clearCookie("refresh_token");
-      return res.json({ success: true, message: "Logged out" });
+      res.clearCookie(CookieKeys.REFRESH_TOKEN);
+      return res.json({ success: true, message: "Logged Out Successfully" });
     } catch (error) {
       return res.status(400).json({
         success: false,

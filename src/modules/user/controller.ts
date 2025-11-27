@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { UsersService } from "./service";
 import { generateAccessToken, generateRefreshToken } from "../../services/token.service";
+import { CookieKeys } from "../../constants";
 
 export class UsersController {
   public service = new UsersService();
@@ -29,7 +30,7 @@ export class UsersController {
       const accessToken = generateAccessToken(user);
       const refreshToken = generateRefreshToken(user);
 
-      res.cookie("refresh_token", refreshToken, {
+      res.cookie(CookieKeys.REFRESH_TOKEN, refreshToken, {
         httpOnly: true,
         secure: true,
         sameSite: "strict",

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { config } from "../core/config/env";
-import { Routes } from "../constants/routes";
+import { Routes } from "../constants";
 
 const publicRoutes = [
   { method: "POST", path: `/api/${Routes.LOGIN}` },
