@@ -45,6 +45,7 @@ export class UsersService {
         url: 1,
         public_id: 1,
         fileType: 1,
+        bio: 1,
       });
 
       return user;
