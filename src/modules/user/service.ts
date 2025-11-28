@@ -42,6 +42,9 @@ export class UsersService {
       const user = await UserModel.findOne({ email: decode.email }).select({
         name: 1,
         email: 1,
+        url: 1,
+        public_id: 1,
+        fileType: 1,
       });
 
       return user;

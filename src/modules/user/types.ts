@@ -9,7 +9,9 @@ export interface User {
 export interface UpdateUserPayload extends Omit<User, "password"> {
   _id: string;
   bio: string;
-  image: string;
+  url: string;
+  public_id: string;
+  fileType: string;
 }
 
 export const createUserSchema = z.object({
@@ -35,6 +37,8 @@ export const createUserSchema = z.object({
 export const updateUserSchema = z.object({
   bio: z.string(),
   email: z.email(),
-  image: z.string(),
+  url: z.string(),
+  public_id: z.string().optional(),
+  fileType: z.string().optional(),
   name: z.string().min(3),
 });

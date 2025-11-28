@@ -9,4 +9,7 @@ export const config = {
   REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET as string,
   ACCESS_TOKEN_EXPIRES_IN: (process.env.ACCESS_TOKEN_EXPIRES_IN as StringValue) || "15m",
   REFRESH_TOKEN_EXPIRES_IN: (process.env.REFRESH_TOKEN_EXPIRES_IN as StringValue) || "7d",
+  CLOUD_NAME: process.env.CLOUD_NAME as string,
+  CLOUD_API_KEY: process.env.CLOUD_API_KEY as string,
+  CLOUD_API_SECRET: process.env.CLOUD_API_SECRET as string,
 };

@@ -5,8 +5,12 @@ const UserSchema = new Schema(
     name: { type: String, required: true, trim: true },
     email: { type: String, required: true, unique: true, lowercase: true },
     password: { type: String, required: true },
-    image: { type: String, trim: true },
     bio: { type: String, trim: true },
+
+    /* cloudinary file upload info */
+    url: { type: String },
+    public_id: { type: String },
+    fileType: { type: String },
   },
   {
     timestamps: true,
