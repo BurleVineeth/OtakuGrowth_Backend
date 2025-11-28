@@ -78,4 +78,21 @@ export class UsersController {
       });
     }
   }
+
+  public async updateUser(req: Request, res: Response) {
+    try {
+      await this.service.updateUser(req.body);
+
+      res.status(200).json({
+        success: true,
+        message: "Changes saved successfully",
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message: (error as Error).message,
+        status: 400,
+      });
+    }
+  }
 }

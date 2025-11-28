@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { validatePayload } from "../../services/utils.service";
 import { UserModel } from "./model";
-import { createUserSchema, User } from "./types";
+import { createUserSchema, UpdateUserPayload, updateUserSchema, User } from "./types";
 import bcrypt from "bcrypt";
 import { config } from "../../core/config/env";
 import { JWTDecodeType } from "../auth/types";
@@ -45,6 +45,29 @@ export class UsersService {
       });
 
       return user;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async updateUser(data: UpdateUserPayload) {
+    try {
+      const { _id, ...userDetails } = data;
+      const validation = validatePayload<Omit<UpdateUserPayload, "_id">>(
+        updateUserSchema,
+        userDetails
+      );
+
+      if (!validation.success) {
+        throw new Error(validation.errors.join(", "));
+      }
+
+      const exists = await UserModel.findOne({ email: data.email });
+      if (exists && exists._id.toString() !== _id) {
+        throw new Error("Email already exists");
+      }
+
+      await UserModel.updateOne({ _id }, userDetails);
     } catch (error) {
       throw error;
     }

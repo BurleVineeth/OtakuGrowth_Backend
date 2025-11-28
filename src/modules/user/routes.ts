@@ -9,5 +9,6 @@ router.get(`/${Routes.USERS}`, controller.getAllUsers.bind(controller));
 router.post(`/${Routes.USERS}`, controller.createUser.bind(controller));
 
 router.get(`/${Routes.USER}`, controller.getUser.bind(controller));
+router.post(`/${Routes.UPDATE_USER}`, controller.updateUser.bind(controller));
 
 export default router;

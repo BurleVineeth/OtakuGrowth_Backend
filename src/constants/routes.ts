@@ -4,4 +4,5 @@ export const Routes = {
   USER: "user",
   USERS: "users",
   LOGOUT: "logout",
+  UPDATE_USER: "updateUser",
 };
