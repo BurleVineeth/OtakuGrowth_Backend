@@ -15,4 +15,6 @@ export const config = {
   RESEND_API_KEY: process.env.RESEND_API_KEY!,
   SENDER_EMAIL: process.env.SENDER_EMAIL!,
   NODE_MAILER_APP_PASSWORD: process.env.NODE_MAILER_APP_PASSWORD!,
+  REDIS_HOST: process.env.REDIS_HOST!,
+  REDIS_PORT: process.env.REDIS_PORT!,
 };

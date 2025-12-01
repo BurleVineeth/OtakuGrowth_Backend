@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { UsersService } from "./service";
 import { generateAccessToken, generateRefreshToken } from "../../services/token.service";
-import { CookieKeys } from "../../constants";
+import { CookieKeys, JobNames, JobTypes } from "../../constants";
+import { emailQueue } from "../../backgroundJobs/queues/email.queue";
 
 export class UsersController {
   public service = new UsersService();
@@ -35,6 +36,12 @@ export class UsersController {
         secure: true,
         sameSite: "strict",
         maxAge: 30 * 24 * 60 * 60 * 1000,
+      });
+
+      await emailQueue.add(JobNames.WELCOME_EMAIL, {
+        type: JobTypes.WELCOME,
+        to: user.email,
+        name: user.name,
       });
 
       res.status(201).json({
