@@ -7,7 +7,10 @@
     "moduleResolution": "NodeNext",
     "target": "ES2022",
     "lib": ["ES2022"],
-    "types": ["node"],
+    "types": ["node", "react"],
+
+    "jsx": "react-jsx",
+    "resolveJsonModule": true,
 
     "sourceMap": true,
     "declaration": true,
@@ -19,7 +22,6 @@
 
     "skipLibCheck": true,
     "esModuleInterop": true,
-
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true
   },

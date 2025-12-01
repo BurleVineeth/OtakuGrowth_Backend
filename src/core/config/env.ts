@@ -12,4 +12,7 @@ export const config = {
   CLOUD_NAME: process.env.CLOUD_NAME as string,
   CLOUD_API_KEY: process.env.CLOUD_API_KEY as string,
   CLOUD_API_SECRET: process.env.CLOUD_API_SECRET as string,
+  RESEND_API_KEY: process.env.RESEND_API_KEY!,
+  SENDER_EMAIL: process.env.SENDER_EMAIL!,
+  NODE_MAILER_APP_PASSWORD: process.env.NODE_MAILER_APP_PASSWORD!,
 };
