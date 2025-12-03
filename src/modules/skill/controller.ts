@@ -23,4 +23,29 @@ export class SkillController {
       });
     }
   }
+
+  public async getSkills(req: Request, res: Response) {
+    try {
+      const { userId } = req.params;
+      if (!userId) {
+        throw new Error("User ID is required");
+      }
+
+      const skills = await this.skillService.getSkills(userId);
+
+      res.status(200).json({
+        success: true,
+        data: {
+          skills,
+        },
+        message: "Skills retrieved successfully",
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message: (error as Error).message,
+        status: 400,
+      });
+    }
+  }
 }

@@ -9,4 +9,5 @@ export const Routes = {
   USER: "user",
   USERS: "users",
   ADD_SKILL: "addSkill",
+  GET_SKILLS: "getSkills",
 };

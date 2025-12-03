@@ -16,4 +16,13 @@ export class SkillService {
       throw error;
     }
   }
+
+  public async getSkills(userId: string) {
+    try {
+      const skills = await SkillModel.find({ user: userId });
+      return skills;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
