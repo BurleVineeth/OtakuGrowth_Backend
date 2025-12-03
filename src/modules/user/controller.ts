@@ -38,7 +38,7 @@ export class UsersController {
         maxAge: 30 * 24 * 60 * 60 * 1000,
       });
 
-      await emailQueue.add(JobNames.WELCOME_EMAIL, {
+      emailQueue.add(JobNames.WELCOME_EMAIL, {
         type: JobTypes.WELCOME,
         to: user.email,
         name: user.name,

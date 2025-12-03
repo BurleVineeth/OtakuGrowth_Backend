@@ -8,4 +8,5 @@ export const Routes = {
   UPLOAD: "upload",
   USER: "user",
   USERS: "users",
+  ADD_SKILL: "addSkill",
 };
