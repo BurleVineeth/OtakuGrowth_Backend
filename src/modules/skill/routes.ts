@@ -7,5 +7,6 @@ const controller = new SkillController();
 
 router.post(`/${Routes.ADD_SKILL}`, controller.addSkill.bind(controller));
 router.get(`/${Routes.GET_SKILLS}/:userId`, controller.getSkills.bind(controller));
+router.get(`/${Routes.SKILL}/:skillId`, controller.getSkill.bind(controller));
 
 export default router;

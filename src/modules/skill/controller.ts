@@ -48,4 +48,33 @@ export class SkillController {
       });
     }
   }
+
+  public async getSkill(req: Request, res: Response) {
+    try {
+      const { skillId } = req.params;
+      if (!skillId) {
+        throw new Error("Skill ID is required");
+      }
+
+      const [skill, tasks] = await Promise.all([
+        this.skillService.getSkill(skillId),
+        this.skillService.getTasksBySkill(skillId),
+      ]);
+
+      res.status(200).json({
+        success: true,
+        data: {
+          skill,
+          tasks,
+        },
+        message: "Skill retrieved successfully",
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message: (error as Error).message,
+        status: 400,
+      });
+    }
+  }
 }

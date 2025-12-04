@@ -2,7 +2,12 @@ import z from "zod";
 
 export type SkillPayload = {
   name: string;
-  level: string;
+  description: string;
+  category: string;
+  difficulty: SkillDifficulty;
+  url: string;
+  public_id: string;
+  fileType: string;
 };
 
 export enum SkillDifficulty {
