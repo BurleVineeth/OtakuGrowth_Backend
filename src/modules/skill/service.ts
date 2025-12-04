@@ -1,9 +1,10 @@
 import { validatePayload } from "../../services/utils.service";
-import { TaskModel } from "../task/model";
+import { TaskService } from "../task/service";
 import { SkillModel } from "./model";
 import { SkillPayload, SkillSchema } from "./types";
 
 export class SkillService {
+  private taskService = new TaskService();
   public async addSkill(skillPayload: SkillPayload) {
     try {
       const validation = validatePayload<SkillPayload>(SkillSchema, skillPayload);
@@ -28,17 +29,13 @@ export class SkillService {
     });
   }
 
-  public getSkill(skillId: string) {
-    return SkillModel.findById(skillId).select({
+  public getSkill(skillId: string, userId: string) {
+    return SkillModel.findOne({ _id: skillId, user: userId }).select({
       updatedAt: 0,
-      user: 0,
     });
   }
 
-  public getTasksBySkill(skillId: string) {
-    return TaskModel.find({ skill: skillId }).select({
-      updatedAt: 0,
-      user: 0,
-    });
+  public getTasksBySkill(skillId: string, userId: string) {
+    return this.taskService.getTasks(skillId, userId);
   }
 }

@@ -12,4 +12,7 @@ export const Routes = {
   GET_SKILLS: "getSkills",
   SKILL: "skill",
   ADD_TASK: "addTask",
+  TASKS: "tasks",
+  UPDATE_TASK: "updateTask/:taskId",
+  DELETE_TASK: "tasks/:taskId",
 };

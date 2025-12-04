@@ -52,13 +52,18 @@ export class SkillController {
   public async getSkill(req: Request, res: Response) {
     try {
       const { skillId } = req.params;
+      const { userId } = req.query;
       if (!skillId) {
         throw new Error("Skill ID is required");
       }
 
+      if (!userId) {
+        throw new Error("User ID is required");
+      }
+
       const [skill, tasks] = await Promise.all([
-        this.skillService.getSkill(skillId),
-        this.skillService.getTasksBySkill(skillId),
+        this.skillService.getSkill(skillId, userId as string),
+        this.skillService.getTasksBySkill(skillId, userId as string),
       ]);
 
       res.status(200).json({
