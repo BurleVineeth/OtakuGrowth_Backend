@@ -15,4 +15,5 @@ export const Routes = {
   TASKS: "tasks",
   UPDATE_TASK: "updateTask/:taskId",
   DELETE_TASK: "tasks/:taskId",
+  DELETE_SKILL: "deleteSkill/:skillId",
 };

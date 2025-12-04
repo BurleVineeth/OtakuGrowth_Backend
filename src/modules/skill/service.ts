@@ -38,4 +38,8 @@ export class SkillService {
   public getTasksBySkill(skillId: string, userId: string) {
     return this.taskService.getTasks(skillId, userId);
   }
+
+  public deleteSkill(skillId: string) {
+    return SkillModel.findByIdAndDelete(skillId);
+  }
 }

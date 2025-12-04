@@ -82,4 +82,25 @@ export class SkillController {
       });
     }
   }
+
+  public async deleteSkill(req: Request, res: Response) {
+    try {
+      const { skillId } = req.params;
+      if (!skillId) {
+        throw new Error("Skill ID is required");
+      }
+
+      await this.skillService.deleteSkill(skillId);
+      res.status(200).json({
+        success: true,
+        message: "Skill deleted successfully",
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message: (error as Error).message,
+        status: 400,
+      });
+    }
+  }
 }
