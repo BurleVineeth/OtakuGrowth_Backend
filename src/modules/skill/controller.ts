@@ -103,4 +103,60 @@ export class SkillController {
       });
     }
   }
+
+  public async getSingleSkill(req: Request, res: Response) {
+    try {
+      const { skillId } = req.params;
+      const { userId } = req.query;
+      if (!skillId) {
+        throw new Error("Skill ID is required");
+      }
+
+      if (!userId) {
+        throw new Error("User ID is required");
+      }
+
+      const skill = await this.skillService.getSkill(skillId, userId as string);
+
+      res.status(200).json({
+        success: true,
+        data: {
+          skill,
+        },
+        message: "Skill retrieved successfully",
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message: (error as Error).message,
+        status: 400,
+      });
+    }
+  }
+
+  public async updateSkill(req: Request, res: Response) {
+    try {
+      const { skillId } = req.params;
+      const skillPayload = req.body;
+      if (!skillId) {
+        throw new Error("Skill ID is required");
+      }
+
+      const skill = await this.skillService.updateSkill(skillId, skillPayload);
+
+      res.status(200).json({
+        success: true,
+        data: {
+          skill,
+        },
+        message: "Skill updated successfully",
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message: (error as Error).message,
+        status: 400,
+      });
+    }
+  }
 }

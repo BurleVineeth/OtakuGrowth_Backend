@@ -42,4 +42,8 @@ export class SkillService {
   public deleteSkill(skillId: string) {
     return SkillModel.findByIdAndDelete(skillId);
   }
+
+  public updateSkill(skillId: string, skillPayload: Partial<SkillPayload>) {
+    return SkillModel.findByIdAndUpdate(skillId, skillPayload, { new: true });
+  }
 }
