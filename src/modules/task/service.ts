@@ -31,4 +31,8 @@ export class TaskService {
   public deleteTask(taskId: string) {
     return TaskModel.findByIdAndDelete(taskId);
   }
+
+  public deleteTasks(skillId: string) {
+    return TaskModel.deleteMany({ skill: skillId });
+  }
 }

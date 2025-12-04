@@ -30,11 +30,7 @@ export class UploadController {
     try {
       const { public_id } = req.body;
 
-      if (!public_id) {
-        return res.status(400).json({ message: "public_id is required" });
-      }
-
-      await cloudinary.uploader.destroy(public_id);
+      await this.deleteFileHelper(public_id);
 
       return res.json({
         success: true,
@@ -44,6 +40,14 @@ export class UploadController {
       console.error("Delete error:", err);
       res.status(500).json({ message: "Delete failed" });
     }
+  }
+
+  public deleteFileHelper(public_id: string) {
+    if (!public_id) {
+      throw new Error("public_id is required");
+    }
+
+    return cloudinary.uploader.destroy(public_id);
   }
 
   public async replaceFile(req: Request, res: Response) {

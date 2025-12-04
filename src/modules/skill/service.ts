@@ -1,10 +1,13 @@
 import { validatePayload } from "../../services/utils.service";
 import { TaskService } from "../task/service";
+import { UploadController } from "../upload/controller";
 import { SkillModel } from "./model";
 import { SkillPayload, SkillSchema } from "./types";
 
 export class SkillService {
   private taskService = new TaskService();
+  private uploadController = new UploadController();
+
   public async addSkill(skillPayload: SkillPayload) {
     try {
       const validation = validatePayload<SkillPayload>(SkillSchema, skillPayload);
@@ -39,8 +42,15 @@ export class SkillService {
     return this.taskService.getTasks(skillId, userId);
   }
 
-  public deleteSkill(skillId: string) {
-    return SkillModel.findByIdAndDelete(skillId);
+  public async deleteSkill(skillId: string, public_id: string) {
+    try {
+      await this.uploadController.deleteFileHelper(public_id);
+      await this.taskService.deleteTasks(skillId);
+
+      return SkillModel.findByIdAndDelete(skillId);
+    } catch (error) {
+      throw error;
+    }
   }
 
   public updateSkill(skillId: string, skillPayload: Partial<SkillPayload>) {

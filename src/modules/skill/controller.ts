@@ -86,11 +86,16 @@ export class SkillController {
   public async deleteSkill(req: Request, res: Response) {
     try {
       const { skillId } = req.params;
+      const { public_id } = req.query;
       if (!skillId) {
         throw new Error("Skill ID is required");
       }
 
-      await this.skillService.deleteSkill(skillId);
+      if (!public_id) {
+        throw new Error("Public Id is required");
+      }
+
+      await this.skillService.deleteSkill(skillId, public_id as string);
       res.status(200).json({
         success: true,
         message: "Skill deleted successfully",
