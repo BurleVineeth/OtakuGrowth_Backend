@@ -32,39 +32,17 @@ export const validatePayload = <T>(schema: any, payload: T): PayloadValidation<T
   };
 };
 
-export const getDayOfYear = (date = new Date()): number => {
-  const start = new Date(date.getFullYear(), 0, 0);
-  const diff = date.getTime() - start.getTime();
-  const oneDay = 1000 * 60 * 60 * 24;
-
-  return Math.floor(diff / oneDay);
+export const getDailyScheduleKey = (date = new Date()): string => {
+  return date.toISOString().slice(0, 10); // "YYYY-MM-DD"
 };
 
-export const getWeekRangeForDate = (
-  date: Date = new Date()
-): { weekStart: number; weekEnd: number } => {
-  const d = new Date(date);
+export const getWeeklyScheduleKey = (date = new Date()): string => {
+  const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+  const dayNum = d.getUTCDay() || 7;
 
-  // Convert Sunday (0) to 7 to make Monday=1 ... Sunday=7
-  const day = d.getDay() === 0 ? 7 : d.getDay();
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNumber = Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
 
-  // Calculate Monday
-  const monday = new Date(d);
-  monday.setDate(d.getDate() - (day - 1));
-  monday.setHours(0, 0, 0, 0);
-
-  // Calculate Sunday
-  const sunday = new Date(monday);
-  sunday.setDate(monday.getDate() + 6);
-  sunday.setHours(23, 59, 59, 999);
-
-  return {
-    weekStart: monday.getTime(),
-    weekEnd: sunday.getTime(),
-  };
-};
-
-export const getCurrentYear = (): number => {
-  const year = new Date().getFullYear();
-  return year;
+  return `${d.getUTCFullYear()}-W${weekNumber}`;
 };
