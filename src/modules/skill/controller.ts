@@ -53,25 +53,41 @@ export class SkillController {
     try {
       const { skillId } = req.params;
       const { userId } = req.query;
-      if (!skillId) {
-        throw new Error("Skill ID is required");
-      }
 
-      if (!userId) {
-        throw new Error("User ID is required");
-      }
+      if (!skillId) throw new Error("Skill ID is required");
+      if (!userId) throw new Error("User ID is required");
 
-      const [skill, tasks] = await Promise.all([
+      // Fetch data in parallel
+      const [skill, tasksRaw, tasksHistoryRaw] = await Promise.all([
         this.skillService.getSkill(skillId, userId as string),
         this.skillService.getTasksBySkill(skillId, userId as string),
+        this.skillService.getTaskHistoryBySkill(skillId, userId as string),
       ]);
 
-      res.status(200).json({
+      // Normalize taskHistory -> Map<taskId, historyObj>
+      const taskHistoryMap = new Map(
+        tasksHistoryRaw.map((h) => {
+          const hist = h.toObject ? h.toObject() : h;
+          const taskId = hist.task?.toString(); // always string!
+          return [taskId, hist];
+        })
+      );
+
+      // Transform tasks
+      const tasks = tasksRaw.map((t) => {
+        const task = t.toObject ? t.toObject() : t;
+        const taskId = task._id?.toString();
+
+        return {
+          ...task,
+          _id: taskId,
+          completed: taskHistoryMap.has(taskId),
+        };
+      });
+
+      return res.status(200).json({
         success: true,
-        data: {
-          skill,
-          tasks,
-        },
+        data: { skill, tasks },
         message: "Skill retrieved successfully",
       });
     } catch (error) {

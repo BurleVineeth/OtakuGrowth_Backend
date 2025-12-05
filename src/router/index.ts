@@ -4,6 +4,7 @@ import { authRoutes } from "../modules/auth";
 import { uploadRoutes } from "../modules/upload";
 import { skillRoutes } from "../modules/skill";
 import { taskRoutes } from "../modules/task";
+import { taskHistoryRoutes } from "../modules/taskHistory";
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use(authRoutes);
 router.use(uploadRoutes);
 router.use(skillRoutes);
 router.use(taskRoutes);
+router.use(taskHistoryRoutes);
 
 export default router;

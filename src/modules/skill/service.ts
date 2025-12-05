@@ -1,5 +1,6 @@
 import { validatePayload } from "../../services/utils.service";
 import { TaskService } from "../task/service";
+import { TaskHistoryService } from "../taskHistory/service";
 import { UploadController } from "../upload/controller";
 import { SkillModel } from "./model";
 import { SkillPayload, SkillSchema } from "./types";
@@ -7,6 +8,7 @@ import { SkillPayload, SkillSchema } from "./types";
 export class SkillService {
   private taskService = new TaskService();
   private uploadController = new UploadController();
+  private taskHistoryService = new TaskHistoryService();
 
   public async addSkill(skillPayload: SkillPayload) {
     try {
@@ -40,6 +42,10 @@ export class SkillService {
 
   public getTasksBySkill(skillId: string, userId: string) {
     return this.taskService.getTasks(skillId, userId);
+  }
+
+  public getTaskHistoryBySkill(skillId: string, userId: string) {
+    return this.taskHistoryService.getTaskHistory(skillId, userId);
   }
 
   public async deleteSkill(skillId: string, public_id: string) {

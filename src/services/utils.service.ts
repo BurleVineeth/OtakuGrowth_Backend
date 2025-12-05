@@ -31,3 +31,40 @@ export const validatePayload = <T>(schema: any, payload: T): PayloadValidation<T
     data: result.data,
   };
 };
+
+export const getDayOfYear = (date = new Date()): number => {
+  const start = new Date(date.getFullYear(), 0, 0);
+  const diff = date.getTime() - start.getTime();
+  const oneDay = 1000 * 60 * 60 * 24;
+
+  return Math.floor(diff / oneDay);
+};
+
+export const getWeekRangeForDate = (
+  date: Date = new Date()
+): { weekStart: number; weekEnd: number } => {
+  const d = new Date(date);
+
+  // Convert Sunday (0) to 7 to make Monday=1 ... Sunday=7
+  const day = d.getDay() === 0 ? 7 : d.getDay();
+
+  // Calculate Monday
+  const monday = new Date(d);
+  monday.setDate(d.getDate() - (day - 1));
+  monday.setHours(0, 0, 0, 0);
+
+  // Calculate Sunday
+  const sunday = new Date(monday);
+  sunday.setDate(monday.getDate() + 6);
+  sunday.setHours(23, 59, 59, 999);
+
+  return {
+    weekStart: monday.getTime(),
+    weekEnd: sunday.getTime(),
+  };
+};
+
+export const getCurrentYear = (): number => {
+  const year = new Date().getFullYear();
+  return year;
+};
