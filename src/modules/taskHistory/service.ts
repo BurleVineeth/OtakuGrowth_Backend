@@ -1,33 +1,26 @@
-import { getDailyScheduleKey, getWeeklyScheduleKey } from "../../services/utils.service";
+import {
+  getDailyScheduleKey,
+  getWeeklyScheduleKey,
+  parseUserDate,
+} from "../../services/utils.service";
 import { TaskType } from "../task/types";
 import { TaskHistoryModel } from "./model";
 import { TaskHistoryPayload } from "./types";
 
 export class TaskHistoryService {
-  public getTaskHistory(skillId: string, userId: string) {
-    const dayKey = getDailyScheduleKey();
-    const weekKey = getWeeklyScheduleKey();
+  public getTaskHistory(skillId: string, userId: string, dailyKey: string) {
+    const date = parseUserDate(dailyKey);
+    const dayKey = getDailyScheduleKey(date);
+    const weekKey = getWeeklyScheduleKey(date);
 
     return TaskHistoryModel.find({
       skill: skillId,
       user: userId,
-      scheduleKey: { $in: [dayKey, weekKey] },
+      $or: [{ scheduleKey: { $in: [dayKey, weekKey] } }, { type: TaskType.ONE_TIME }],
     });
   }
 
   public completeTask(taskPayload: TaskHistoryPayload) {
-    const scheduleKey =
-      taskPayload.type === TaskType.DAILY
-        ? getDailyScheduleKey()
-        : taskPayload.type === TaskType.WEEKLY
-          ? getWeeklyScheduleKey()
-          : taskPayload.task.toString();
-
-    const taskHistoryPayload = {
-      ...taskPayload,
-      scheduleKey,
-    };
-
-    return TaskHistoryModel.create(taskHistoryPayload);
+    return TaskHistoryModel.create(taskPayload);
   }
 }

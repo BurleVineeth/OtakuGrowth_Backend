@@ -52,16 +52,17 @@ export class SkillController {
   public async getSkill(req: Request, res: Response) {
     try {
       const { skillId } = req.params;
-      const { userId } = req.query;
+      const { userId, dailyKey } = req.query;
 
       if (!skillId) throw new Error("Skill ID is required");
       if (!userId) throw new Error("User ID is required");
+      if (!dailyKey) throw new Error("Daily Key is required");
 
       // Fetch data in parallel
       const [skill, tasksRaw, tasksHistoryRaw] = await Promise.all([
         this.skillService.getSkill(skillId, userId as string),
         this.skillService.getTasksBySkill(skillId, userId as string),
-        this.skillService.getTaskHistoryBySkill(skillId, userId as string),
+        this.skillService.getTaskHistoryBySkill(skillId, userId as string, dailyKey as string),
       ]);
 
       // Normalize taskHistory -> Map<taskId, historyObj>

@@ -32,11 +32,17 @@ export const validatePayload = <T>(schema: any, payload: T): PayloadValidation<T
   };
 };
 
-export const getDailyScheduleKey = (date = new Date()): string => {
+// "YYYY-MM-DD"
+export const parseUserDate = (dateStr: string): Date => {
+  // This forces the date to be interpreted as UTC midnight of the user's local date.
+  return new Date(`${dateStr}T00:00:00.000Z`);
+};
+
+export const getDailyScheduleKey = (date: Date): string => {
   return date.toISOString().slice(0, 10); // "YYYY-MM-DD"
 };
 
-export const getWeeklyScheduleKey = (date = new Date()): string => {
+export const getWeeklyScheduleKey = (date: Date): string => {
   const d = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
   const dayNum = d.getUTCDay() || 7;
 

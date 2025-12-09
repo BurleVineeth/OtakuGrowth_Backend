@@ -44,8 +44,8 @@ export class SkillService {
     return this.taskService.getTasks(skillId, userId);
   }
 
-  public getTaskHistoryBySkill(skillId: string, userId: string) {
-    return this.taskHistoryService.getTaskHistory(skillId, userId);
+  public getTaskHistoryBySkill(skillId: string, userId: string, dailyKey: string) {
+    return this.taskHistoryService.getTaskHistory(skillId, userId, dailyKey);
   }
 
   public async deleteSkill(skillId: string, public_id: string) {
