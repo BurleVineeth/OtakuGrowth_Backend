@@ -14,6 +14,15 @@ export interface UpdateUserPayload extends Omit<User, "password"> {
   fileType: string;
 }
 
+export interface UpdateUserLevelPayload {
+  _id: string;
+  level: number;
+  totalXP: number;
+  class: UserClass;
+}
+
+export type UserClass = "E" | "D" | "C" | "B" | "A" | "S";
+
 export const createUserSchema = z.object({
   name: z.string().min(3),
   email: z.email(),
@@ -41,4 +50,10 @@ export const updateUserSchema = z.object({
   public_id: z.string().optional(),
   fileType: z.string().optional(),
   name: z.string().min(3),
+});
+
+export const updateUserLevelSchema = z.object({
+  class: z.string(),
+  level: z.number(),
+  totalXP: z.number(),
 });

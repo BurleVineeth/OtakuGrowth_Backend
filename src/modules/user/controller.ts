@@ -102,4 +102,21 @@ export class UsersController {
       });
     }
   }
+
+  public async updateUserLevel(req: Request, res: Response) {
+    try {
+      await this.service.updateUserLevel(req.body);
+
+      res.status(200).json({
+        success: true,
+        message: "XP added to stats successfully",
+      });
+    } catch (error) {
+      return res.status(400).json({
+        success: false,
+        message: (error as Error).message,
+        status: 400,
+      });
+    }
+  }
 }

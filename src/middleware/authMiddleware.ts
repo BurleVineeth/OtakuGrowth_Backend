@@ -5,7 +5,7 @@ import { Routes } from "../constants";
 
 const publicRoutes = [
   { method: "POST", path: `/api/${Routes.LOGIN}` },
-  { method: "POST", path: `/api/${Routes.USERS}` },
+  { method: "POST", path: `/api/${Routes.CREATE_USER}` },
   { method: "POST", path: `/api/${Routes.REFRESH}` },
 ];
 

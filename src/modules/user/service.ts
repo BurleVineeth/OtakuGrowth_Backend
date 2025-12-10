@@ -1,7 +1,14 @@
 import jwt from "jsonwebtoken";
 import { validatePayload } from "../../services/utils.service";
 import { UserModel } from "./model";
-import { createUserSchema, UpdateUserPayload, updateUserSchema, User } from "./types";
+import {
+  createUserSchema,
+  UpdateUserLevelPayload,
+  updateUserLevelSchema,
+  UpdateUserPayload,
+  updateUserSchema,
+  User,
+} from "./types";
 import bcrypt from "bcrypt";
 import { config } from "../../core/config/env";
 import { JWTDecodeType } from "../auth/types";
@@ -26,7 +33,7 @@ export class UsersService {
       const hashedPassword = await bcrypt.hash(data.password, 10);
       data.password = hashedPassword;
 
-      const user = await UserModel.create(data);
+      const user = await UserModel.create({ ...data, class: "E", level: 1, totalXP: 0 });
       const userObj = user.toObject();
       const { password, ...userWithoutPassword } = userObj;
 
@@ -46,6 +53,9 @@ export class UsersService {
         public_id: 1,
         fileType: 1,
         bio: 1,
+        level: 1,
+        class: 1,
+        totalXP: 1,
       });
 
       return user;
@@ -69,6 +79,24 @@ export class UsersService {
       const exists = await UserModel.findOne({ email: data.email });
       if (exists && exists._id.toString() !== _id) {
         throw new Error("Email already exists");
+      }
+
+      await UserModel.updateOne({ _id }, userDetails);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async updateUserLevel(data: UpdateUserLevelPayload) {
+    try {
+      const { _id, ...userDetails } = data;
+      const validation = validatePayload<Omit<UpdateUserLevelPayload, "_id">>(
+        updateUserLevelSchema,
+        userDetails
+      );
+
+      if (!validation.success) {
+        throw new Error(validation.errors.join(", "));
       }
 
       await UserModel.updateOne({ _id }, userDetails);
