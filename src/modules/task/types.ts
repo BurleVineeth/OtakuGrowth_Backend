@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import z from "zod";
 
 export enum TaskType {
@@ -23,3 +24,13 @@ export const TaskSchema = z.object({
   user: z.string(),
   skill: z.string(),
 });
+
+export interface Task {
+  _id: Types.ObjectId;
+  name?: string;
+  description?: string;
+  duration?: number;
+  type?: TaskType;
+  user?: Types.ObjectId;
+  skill?: Types.ObjectId;
+}

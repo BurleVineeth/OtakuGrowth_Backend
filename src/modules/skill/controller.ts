@@ -27,11 +27,16 @@ export class SkillController {
   public async getSkills(req: Request, res: Response) {
     try {
       const { userId } = req.params;
+      const { dailyKey } = req.query;
       if (!userId) {
         throw new Error("User ID is required");
       }
 
-      const skills = await this.skillService.getSkills(userId);
+      if (!dailyKey) {
+        throw new Error("Daily key is required");
+      }
+
+      const skills = await this.skillService.getSkills(userId, dailyKey as string);
 
       res.status(200).json({
         success: true,

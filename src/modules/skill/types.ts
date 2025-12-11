@@ -1,3 +1,4 @@
+import { ObjectId, Types } from "mongoose";
 import z from "zod";
 
 export type SkillPayload = {
@@ -29,3 +30,15 @@ export const SkillSchema = z.object({
   public_id: z.string(),
   fileType: z.string(),
 });
+
+export interface Skill {
+  _id: Types.ObjectId;
+  name?: string;
+  description?: string;
+  category?: string;
+  difficulty?: SkillDifficulty;
+  user?: Types.ObjectId;
+  url?: string;
+  public_id?: string;
+  fileType?: string;
+}
