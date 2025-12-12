@@ -101,21 +101,33 @@ export class SkillService {
   private attachTaskCountsToSkills(skills: Skill[], tasks: Task[], taskHistories: TaskHistory[]) {
     // Count total tasks by skillId
     const totalTaskMap: Record<string, number> = {};
+    const taskIds = new Set<string>();
     tasks.forEach((t) => {
+      taskIds.add(t._id.toString());
       totalTaskMap[t.skill!.toString()] = (totalTaskMap[t.skill!.toString()] || 0) + 1;
     });
 
     // Count completed tasks by skillId
     const completedTaskMap: Record<string, number> = {};
     taskHistories.forEach((th) => {
-      completedTaskMap[th.skill!.toString()] = (completedTaskMap[th.skill!.toString()] || 0) + 1;
+      if (taskIds.has(th.task!.toString())) {
+        completedTaskMap[th.skill!.toString()] = (completedTaskMap[th.skill!.toString()] || 0) + 1;
+      }
     });
 
     // Attach counts to skills
-    return skills.map((skill) => ({
-      ...skill,
-      totalTasks: totalTaskMap[skill._id!.toString()] || 0,
-      completedTasks: completedTaskMap[skill._id!.toString()] || 0,
-    }));
+    return skills.reduce<{ skill: Skill; value: { totalTasks: number; completedTasks: number } }[]>(
+      (acc, skill) => {
+        acc.push({
+          skill,
+          value: {
+            totalTasks: totalTaskMap[skill._id!.toString()] || 0,
+            completedTasks: completedTaskMap[skill._id!.toString()] || 0,
+          },
+        });
+        return acc;
+      },
+      []
+    );
   }
 }
